@@ -27,18 +27,24 @@ export async function POST(request) {
     }
 
     const cleaned = keys.map((k) => String(k).trim()).filter(Boolean);
+    const uniqueCodes = [...new Set(cleaned)];
+    const duplicateSubmitted = cleaned.length - uniqueCodes.length;
 
     let inserted = 0;
-    let skipped = 0;
+    let skipped = duplicateSubmitted;
+    const skippedKeys = cleaned.length !== uniqueCodes.length ? cleaned.filter((code, index) => cleaned.indexOf(code) !== index) : [];
+    const duplicateDbCodes = [];
     const errors = [];
 
-    for (const code of cleaned) {
+    for (const code of uniqueCodes) {
       try {
         await Key.create({ code, plan, status: "unused" });
         inserted++;
       } catch (err) {
         if (err.code === 11000) {
           skipped++; // duplicate — already in stock
+          skippedKeys.push(code);
+          duplicateDbCodes.push(code);
         } else {
           errors.push({ code, message: err.message });
         }
@@ -47,7 +53,17 @@ export async function POST(request) {
 
     const remaining = await Key.countDocuments({ plan, status: "unused" });
 
-    return Response.json({ plan, submitted: cleaned.length, inserted, skipped, errors, remaining });
+    return Response.json({
+      plan,
+      submitted: cleaned.length,
+      inserted,
+      skipped,
+      duplicateSubmitted,
+      duplicateDbCodes: [...new Set(duplicateDbCodes)],
+      skippedKeys: [...new Set(skippedKeys)],
+      errors,
+      remaining,
+    });
   } catch (err) {
     console.error("[admin] import failed:", err);
     return Response.json({ error: "import failed" }, { status: 500 });

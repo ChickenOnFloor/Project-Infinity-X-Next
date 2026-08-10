@@ -82,7 +82,11 @@ export default function AdminPage() {
       });
       setImportStatus({
         type: "ok",
-        message: `Done — inserted ${result.inserted}, skipped ${result.skipped} duplicate(s). ${result.remaining} unused ${plan} key(s) now in stock.`,
+        message: `Done — inserted ${result.inserted}, skipped ${result.skipped} duplicate(s). ${result.remaining} unused ${plan} key(s) now in stock.${
+          result.duplicateDbCodes && result.duplicateDbCodes.length > 0
+            ? ` Duplicate existing key(s): ${result.duplicateDbCodes.join(", ")}`
+            : ""
+        }`,
       });
       setKeysText("");
       await loadStock();
