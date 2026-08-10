@@ -30,21 +30,28 @@ export async function POST(request) {
     const uniqueCodes = [...new Set(cleaned)];
     const duplicateSubmitted = cleaned.length - uniqueCodes.length;
 
+    const existingKeys = await Key.find({ code: { $in: uniqueCodes } }).select("code").lean();
+    const duplicateDbCodes = existingKeys.map((doc) => doc.code);
+
+    const codesToInsert = uniqueCodes.filter((code) => !duplicateDbCodes.includes(code));
     let inserted = 0;
-    let skipped = duplicateSubmitted;
-    const skippedKeys = cleaned.length !== uniqueCodes.length ? cleaned.filter((code, index) => cleaned.indexOf(code) !== index) : [];
-    const duplicateDbCodes = [];
+    let skipped = duplicateSubmitted + duplicateDbCodes.length;
+    const skippedKeys = [
+      ...new Set(
+        cleaned.filter((code, index) => cleaned.indexOf(code) !== index).concat(duplicateDbCodes)
+      ),
+    ];
     const errors = [];
 
-    for (const code of uniqueCodes) {
+    for (const code of codesToInsert) {
       try {
         await Key.create({ code, plan, status: "unused" });
         inserted++;
       } catch (err) {
         if (err.code === 11000) {
-          skipped++; // duplicate — already in stock
-          skippedKeys.push(code);
+          skipped++;
           duplicateDbCodes.push(code);
+          skippedKeys.push(code);
         } else {
           errors.push({ code, message: err.message });
         }
