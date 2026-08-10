@@ -22,7 +22,10 @@ const keySchema = new mongoose.Schema(
     },
     assignedEmail: { type: String, default: null },
     assignedAt: { type: Date, default: null },
-    gumroadSaleId: { type: String, default: null, unique: true, sparse: true },
+    // Leave this field absent until a Gumroad sale claims the key. A sparse
+    // unique index still indexes `null`, so defaulting it to null makes every
+    // unclaimed key conflict with the first one.
+    gumroadSaleId: { type: String, unique: true, sparse: true },
     gumroadOrderNumber: { type: String, default: null },
   },
   { timestamps: true }

@@ -23,7 +23,7 @@ const keySchema = new mongoose.Schema(
     status: { type: String, enum: ["unused", "used"], default: "unused" },
     assignedEmail: { type: String, default: null },
     assignedAt: { type: Date, default: null },
-    gumroadSaleId: { type: String, default: null, unique: true, sparse: true },
+    gumroadSaleId: { type: String, unique: true, sparse: true },
     gumroadOrderNumber: { type: String, default: null },
   },
   { timestamps: true }
@@ -73,7 +73,7 @@ async function main() {
       await Key.create({ code, plan, status: "unused" });
       inserted++;
     } catch (err) {
-      if (err.code === 11000) {
+      if (err.code === 11000 && err.keyPattern?.code === 1) {
         skipped++;
       } else {
         console.error(`Failed to insert "${code}":`, err.message);

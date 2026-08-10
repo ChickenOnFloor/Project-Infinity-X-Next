@@ -4,6 +4,10 @@ import { checkAdminAuth } from "@/lib/adminAuth";
 
 const VALID_PLANS = ["weekly", "monthly", "lifetime"];
 
+function isCodeDuplicateError(err) {
+  return err?.code === 11000 && err?.keyPattern?.code === 1;
+}
+
 export async function POST(request) {
   const authError = checkAdminAuth(request);
   if (authError) return authError;
@@ -55,7 +59,7 @@ export async function POST(request) {
         await Key.create({ code, plan, status: "unused" });
         inserted++;
       } catch (err) {
-        if (err.code === 11000) {
+        if (isCodeDuplicateError(err)) {
           skipped++;
           duplicateDbCodes.push(code);
           skippedKeys.push(code);
