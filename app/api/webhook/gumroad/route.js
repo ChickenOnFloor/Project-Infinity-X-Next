@@ -21,7 +21,8 @@ export async function POST(request) {
     const form = await request.formData();
     const body = Object.fromEntries(form.entries());
 
-    const permalink = body.permalink || body.short_product_id;
+    const permalink =
+      body.permalink || body.product_permalink || body.short_product_id || body.product_id;
     const buyerEmail = body.email;
     const saleId = body.sale_id;
     const orderNumber = body.order_number;

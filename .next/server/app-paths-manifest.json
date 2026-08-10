@@ -1,4 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/api/stock/route": "app/api/stock/route.js"
+  "/api/webhook/gumroad/route": "app/api/webhook/gumroad/route.js"
 }
