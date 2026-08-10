@@ -43,6 +43,13 @@ export async function POST(request) {
     ];
     const errors = [];
 
+    if (duplicateDbCodes.length > 0) {
+      console.warn("[admin] import duplicate DB codes detected:", duplicateDbCodes);
+    }
+    if (duplicateSubmitted > 0) {
+      console.warn("[admin] import duplicate submitted codes detected:", cleaned.filter((code, index) => cleaned.indexOf(code) !== index));
+    }
+
     for (const code of codesToInsert) {
       try {
         await Key.create({ code, plan, status: "unused" });
@@ -67,6 +74,7 @@ export async function POST(request) {
       skipped,
       duplicateSubmitted,
       duplicateDbCodes: [...new Set(duplicateDbCodes)],
+      existingKeys: existingKeys.map((doc) => doc.code),
       skippedKeys: [...new Set(skippedKeys)],
       errors,
       remaining,
