@@ -19,7 +19,11 @@ export async function GET() {
     return new Response(JSON.stringify(result), {
       headers: {
         "Content-Type": "application/json",
+        // Prevent browser, intermediary CDN, and Vercel edge caches from
+        // retaining a stock response after a key is sold.
         "Cache-Control": "no-store, max-age=0",
+        "CDN-Cache-Control": "no-store",
+        "Vercel-CDN-Cache-Control": "no-store",
       },
     });
   } catch (err) {
