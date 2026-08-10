@@ -26,6 +26,7 @@ export async function POST(request) {
     const buyerEmail = body.email;
     const saleId = body.sale_id;
     const orderNumber = body.order_number;
+    const isTest = body.test === "true" || body.test === true;
 
     if (!permalink || !buyerEmail || !saleId) {
       console.warn("[webhook] missing required fields, ignoring:", body);
@@ -66,7 +67,11 @@ export async function POST(request) {
       return new Response("out of stock, admin alerted", { status: 200 });
     }
 
-    await sendKeyEmail({ toEmail: buyerEmail, plan, keyCode: key.code });
+    if (!isTest) {
+      await sendKeyEmail({ toEmail: buyerEmail, plan, keyCode: key.code });
+    } else {
+      console.log(`[webhook] test purchase for ${plan}, key ${key.code} claimed but not emailed`);
+    }
 
     const remaining = await Key.countDocuments({ plan, status: "unused" });
     if (remaining <= LOW_STOCK_THRESHOLD) {

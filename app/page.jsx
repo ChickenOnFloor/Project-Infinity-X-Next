@@ -145,7 +145,9 @@ function useStock() {
 
     async function fetchStock() {
       try {
-        const res = await fetch(STOCK_ENDPOINT, { cache: "no-store" });
+        // The timestamp also avoids a stale CDN/browser response if one was
+        // cached before the API's no-store headers are applied.
+        const res = await fetch(`${STOCK_ENDPOINT}?t=${Date.now()}`, { cache: "no-store" });
         if (!res.ok) throw new Error("bad response");
         const data = await res.json();
         if (!cancelled) {

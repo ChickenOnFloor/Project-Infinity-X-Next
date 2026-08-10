@@ -1,6 +1,11 @@
 import { connectDB } from "@/lib/db";
 import Key from "@/models/Key";
 
+// Stock changes after every purchase, so this route must never be statically
+// cached by Next.js or Vercel.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     await connectDB();
