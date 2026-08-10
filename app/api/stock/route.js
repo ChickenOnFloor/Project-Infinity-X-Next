@@ -11,7 +11,12 @@ export async function GET() {
       result[plan] = await Key.countDocuments({ plan, status: "unused" });
     }
 
-    return Response.json(result);
+    return new Response(JSON.stringify(result), {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store, max-age=0",
+      },
+    });
   } catch (err) {
     console.error("[stock] failed:", err);
     return Response.json({ error: "failed to load stock" }, { status: 500 });

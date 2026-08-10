@@ -145,7 +145,7 @@ function useStock() {
 
     async function fetchStock() {
       try {
-        const res = await fetch(STOCK_ENDPOINT);
+        const res = await fetch(STOCK_ENDPOINT, { cache: "no-store" });
         if (!res.ok) throw new Error("bad response");
         const data = await res.json();
         if (!cancelled) {
