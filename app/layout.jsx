@@ -32,9 +32,9 @@ export const metadata = {
   },
   // Additional meta tags
   icons: {
-    icon: "/image/logo1.png",
-    shortcut: "/image/logo1.png",
-    apple: "/image/logo1.png",
+    icon: "/image/tabicon.png",
+    shortcut: "/image/tabicon.png",
+    apple: "/image/tabicon.png",
   },
   // Other optional tags
   robots: {
