@@ -344,47 +344,61 @@ ul {
 /* ---------- Games ---------- */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
+
 .game-card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 20px 16px;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
+
 .game-card:hover {
-  border-color: var(--violet-soft);
   transform: translateY(-2px);
+  border-color: var(--accent, #7dd3fc);
+  background: rgba(255, 255, 255, 0.05);
 }
+
 .game-icon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: rgba(139, 92, 246, 0.12);
-  color: var(--violet);
-  margin-bottom: 14px;
+  background: rgba(125, 211, 252, 0.1);
+  color: var(--accent, #7dd3fc);
 }
+
 .game-name {
   font-weight: 600;
   font-size: 14px;
-  margin-bottom: 10px;
 }
+
 .game-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-family: var(--mono);
+  gap: 4px;
   font-size: 11px;
-  color: var(--cyan);
-  background: rgba(34, 211, 238, 0.08);
-  border: 1px solid rgba(34, 211, 238, 0.2);
-  padding: 4px 8px;
-  border-radius: 6px;
+  opacity: 0.65;
+}
+
+.game-link-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: auto;
 }
 
 /* ---------- Pricing ---------- */
@@ -545,6 +559,22 @@ ul {
   border-radius: 10px;
   padding: 16px 18px;
 }
+
+.faq-summary {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.faq-chevron {
+  transition: transform 0.2s ease;
+}
 .faq-item summary {
   cursor: pointer;
   font-weight: 600;
@@ -556,6 +586,13 @@ ul {
 }
 .faq-item summary::-webkit-details-marker {
   display: none;
+}
+
+.faq-item-open .faq-chevron {
+  transform: rotate(180deg);
+}
+.faq-answer {
+  margin-top: 8px;
 }
 .faq-item summary::after {
   content: "+";
@@ -830,12 +867,18 @@ ul {
 }
 
 .panel-caption {
-  margin-top: 18px;
-  font-size: 12px;
-  color: var(--text-dimmer);
-  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent, #7dd3fc); /* use your existing accent color */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  border-radius: 999px;
 }
-
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .hero-inner {

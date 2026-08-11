@@ -33,14 +33,46 @@ const DISCORD_INVITE = "https://discord.gg/88gR5XUpkC";
 const STOCK_ENDPOINT = "/api/stock";
 
 const GAMES = [
-  { name: "99 Nights in the Forest", exec: "Xeno" },
-  { name: "Evade", exec: "Xeno" },
-  { name: "MM2", exec: "Xeno" },
-  { name: "Pet Simulator 99", exec: null },
-  { name: "Be A Lucky Block", exec: "Xeno" },
-  { name: "Bite By Night", exec: "Xeno" },
-  { name: "Fish It", exec: null },
-  { name: "Slime RNG", exec: null },
+  {
+    name: "99 Nights in the Forest",
+    exec: "Xeno",
+    url: "https://www.roblox.com/games/109983668079237/99-Nights-in-the-Forest",
+  },
+  {
+    name: "Evade",
+    exec: "Xeno",
+    url: "https://www.roblox.com/games/6053541710/Evade",
+  },
+  {
+    name: "MM2",
+    exec: "Xeno",
+    url: "https://www.roblox.com/games/142823291/Murder-Mystery-2",
+  },
+  {
+    name: "Pet Simulator 99",
+    exec: null,
+    url: "https://www.roblox.com/games/8737899170/Pet-Simulator-99",
+  },
+  {
+    name: "Be A Lucky Block",
+    exec: "Xeno",
+    url: "https://www.roblox.com/games/17709634922/Be-A-Lucky-Block",
+  },
+  {
+    name: "Bite By Night",
+    exec: "Xeno",
+    url: "https://www.roblox.com/games/17542462247/Bite-By-Night",
+  },
+  {
+    name: "Fish It",
+    exec: null,
+    url: "https://www.roblox.com/games/16732694052/Fish-It",
+  },
+  {
+    name: "Slime RNG",
+    exec: null,
+    url: "https://www.roblox.com/games/",
+  },
 ];
 
 const PLANS = [
@@ -370,6 +402,7 @@ function PanelPreview() {
         </div>
 
         <p className="panel-caption">
+          <span className="dot-live" aria-hidden="true" />
           Live preview — actual panel shown after redeeming a Project
           Infinity X key
         </p>
@@ -475,12 +508,18 @@ function Games() {
         <h2>Built for the games you already have open</h2>
         <p className="section-sub">
           Every title below runs on the same key, same panel, same hub — no
-          separate purchases per game.
+          separate purchases per game. Click a game to open it on Roblox.
         </p>
       </div>
       <div className="games-grid">
         {GAMES.map((g) => (
-          <div className="game-card" key={g.name}>
+          <a
+            className="game-card"
+            key={g.name}
+            href={g.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="game-icon">
               <Gamepad2 size={18} />
             </div>
@@ -491,7 +530,11 @@ function Games() {
                 {g.exec} Supported
               </div>
             )}
-          </div>
+            <span className="game-link-row">
+              Open game
+              <ExternalLink size={12} />
+            </span>
+          </a>
         ))}
       </div>
     </section>
@@ -577,10 +620,12 @@ function Pricing() {
 }
 
 function FAQ() {
+  const [openIndex, setOpenIndex] = useState(null);
+
   const items = [
     {
       q: "How do I get my key after paying?",
-      a: "Gumroad shows your key immediately on the receipt page and sends it to your email. Paste it into the panel to activate your plan.",
+      a: "After checkout, your key is sent to the email you used on Gumroad — it's not shown instantly on the receipt page, so check your inbox (and spam folder) after purchase.",
     },
     {
       q: "Does one key work on every game?",
@@ -588,13 +633,14 @@ function FAQ() {
     },
     {
       q: "What executor do I need?",
-      a: "All modules are built and tested for Xeno. Support for additional executors may be added later.",
+      a: "The hub works on any executor. All executors support sunc, but the level varies — executors with lower sunc, like Xeno, will run with some features limited.",
     },
     {
       q: "Can I switch from weekly to monthly or lifetime later?",
       a: "Keys aren't upgraded — each plan is its own purchase. If you want a longer plan, just buy that plan separately; your existing key keeps working until it expires.",
     },
   ];
+
   return (
     <section id="faq" className="section">
       <div className="section-head">
@@ -602,12 +648,23 @@ function FAQ() {
         <h2>Good to know</h2>
       </div>
       <div className="faq-list">
-        {items.map((it) => (
-          <details className="faq-item" key={it.q}>
-            <summary>{it.q}</summary>
-            <p>{it.a}</p>
-          </details>
-        ))}
+        {items.map((it, i) => {
+          const open = openIndex === i;
+          return (
+            <div className={`faq-item ${open ? "faq-item-open" : ""}`} key={it.q}>
+              <button
+                type="button"
+                className="faq-summary"
+                onClick={() => setOpenIndex(open ? null : i)}
+                aria-expanded={open}
+              >
+                {it.q}
+                <ChevronDown size={16} className="faq-chevron" />
+              </button>
+              {open && <p className="faq-answer">{it.a}</p>}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
