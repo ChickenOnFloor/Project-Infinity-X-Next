@@ -36,15 +36,15 @@ const GAMES = [
   {
     name: "99 Nights in the Forest",
     exec: "Xeno",
-    url: "https://www.roblox.com/games/109983668079237/99-Nights-in-the-Forest",
+    url: "https://www.roblox.com/games/79546208627805/99-Nights-in-the-Forest",
   },
   {
     name: "Evade",
     exec: "Xeno",
-    url: "https://www.roblox.com/games/6053541710/Evade",
+    url: "https://www.roblox.com/games/9872472334/Evade",
   },
   {
-    name: "MM2",
+    name: "Murder Mystery 2",
     exec: "Xeno",
     url: "https://www.roblox.com/games/142823291/Murder-Mystery-2",
   },
@@ -56,22 +56,22 @@ const GAMES = [
   {
     name: "Be A Lucky Block",
     exec: "Xeno",
-    url: "https://www.roblox.com/games/17709634922/Be-A-Lucky-Block",
+    url: "https://www.roblox.com/games/124473577469410/Be-a-Lucky-Block",
   },
   {
     name: "Bite By Night",
     exec: "Xeno",
-    url: "https://www.roblox.com/games/17542462247/Bite-By-Night",
+    url: "https://www.roblox.com/games/71008479572236/Bite-By-Night",
   },
   {
     name: "Fish It",
     exec: null,
-    url: "https://www.roblox.com/games/16732694052/Fish-It",
+    url: "https://www.roblox.com/games/121864768012064/Fish-It",
   },
   {
     name: "Slime RNG",
     exec: null,
-    url: "https://www.roblox.com/games/",
+    url: "https://www.roblox.com/games/92416421522960/Slime-RNG",
   },
 ];
 
