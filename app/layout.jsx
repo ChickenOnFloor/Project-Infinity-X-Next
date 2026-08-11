@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Project Infinity X — Universal Script Hub",
+  title: "Project Infinity X",
   description:
     "Project Infinity X is a universal Roblox script hub. One key, every supported game.",
   // Open Graph / Social Media Meta Tags
@@ -13,7 +13,7 @@ export const metadata = {
     siteName: "Project Infinity X",
     images: [
       {
-        url: "/image/logo.jpg", // Path to your image in public folder
+        url: "/image/logo1.jpg", // Path to your image in public folder
         width: 1200,
         height: 630,
         alt: "Project Infinity X — Universal Script Hub",
@@ -28,13 +28,13 @@ export const metadata = {
     title: "Project Infinity X — Universal Script Hub",
     description:
       "Project Infinity X is a universal Roblox script hub. One key, every supported game.",
-    images: ["/image/logo.jpg"],
+    images: ["/image/logo1.jpg"],
   },
   // Additional meta tags
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: "/image/logo1.png",
+    shortcut: "/image/logo1.png",
+    apple: "/image/logo1.png",
   },
   // Other optional tags
   robots: {
