@@ -1,6 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
+  metadataBase: new URL("https://project-infinity-x.vercel.app"),
   title: "Project Infinity X",
   description:
     "Project Infinity X is a universal Roblox script hub. One key, every supported game.",
@@ -13,7 +14,7 @@ export const metadata = {
     siteName: "Project Infinity X",
     images: [
       {
-        url: "/image/logo1.jpg", // Path to your image in public folder
+        url: "/image/logo1.png", // Path to your image in public folder
         width: 1200,
         height: 630,
         alt: "Project Infinity X — Universal Script Hub",
@@ -28,7 +29,7 @@ export const metadata = {
     title: "Project Infinity X — Universal Script Hub",
     description:
       "Project Infinity X is a universal Roblox script hub. One key, every supported game.",
-    images: ["/image/logo1.jpg"],
+    images: ["/image/logo1.png"],
   },
   // Additional meta tags
   icons: {
