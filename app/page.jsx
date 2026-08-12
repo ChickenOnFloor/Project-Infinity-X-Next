@@ -78,9 +78,9 @@ const GAMES = [
 const PLANS = [
   {
     id: "week",
-    label: "Weekly",
+    label: "Monthly",
     price: "5",
-    period: "/ 7 days",
+    period: "/ 30 days",
     icon: Clock,
     tagline: "Try the hub, no commitment",
     features: [
@@ -94,9 +94,9 @@ const PLANS = [
   },
   {
     id: "month",
-    label: "Monthly",
+    label: "3 Months",
     price: "10",
-    period: "/ 30 days",
+    period: "/ 90 days",
     icon: Zap,
     tagline: "Best balance of price and length",
     features: [
