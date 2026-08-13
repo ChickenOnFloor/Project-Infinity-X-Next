@@ -613,7 +613,14 @@ function Pricing() {
               </ul>
               <StockBadge count={count} error={error} />
               {stockPending ? (
-                <span className="btn btn-outline plan-btn plan-btn-disabled">Checking stock…</span>
+                <a
+                  href={plan.gumroad}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn ${plan.featured ? "btn-primary" : "btn-outline"} plan-btn plan-btn-disabled`}
+                >
+                  Buy on Gumroad <ExternalLink size={14} />
+                </a>
               ) : soldOut ? (
                 <span className="btn btn-outline plan-btn plan-btn-disabled">Sold out</span>
               ) : (
