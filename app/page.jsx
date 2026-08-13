@@ -171,6 +171,7 @@ const STOCK_KEY_BY_PLAN_ID = {
 function useStock() {
   const [stock, setStock] = useState(null);
   const [error, setError] = useState(false);
+  const hasResolvedStock = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -181,13 +182,24 @@ function useStock() {
         // cached before the API's no-store headers are applied.
         const res = await fetch(`${STOCK_ENDPOINT}?t=${Date.now()}`, { cache: "no-store" });
         if (!res.ok) throw new Error("bad response");
+
         const data = await res.json();
+        if (data?.error) throw new Error(data.error);
+
         if (!cancelled) {
           setStock(data);
           setError(false);
+          hasResolvedStock.current = true;
         }
       } catch (err) {
-        if (!cancelled) setError(true);
+        if (!cancelled) {
+          if (!hasResolvedStock.current) {
+            setStock(null);
+            setError(true);
+          } else {
+            setError(false);
+          }
+        }
       }
     }
 
@@ -542,10 +554,10 @@ function Games() {
 }
 
 function StockBadge({ count, error }) {
-  if (error) {
-    return <div className="stock-badge stock-out">Stock unavailable</div>;
-  }
   if (count === null || count === undefined) {
+    if (error) {
+      return <div className="stock-badge stock-out">Stock unavailable</div>;
+    }
     return <div className="stock-badge stock-loading">Checking stock…</div>;
   }
   if (count <= 0) {
@@ -575,6 +587,7 @@ function Pricing() {
           const Icon = plan.icon;
           const stockKey = STOCK_KEY_BY_PLAN_ID[plan.id];
           const count = stock ? stock[stockKey] : null;
+          const stockPending = stock === null || stock === undefined;
           const soldOut = count !== null && count !== undefined && count <= 0;
 
           return (
@@ -599,7 +612,9 @@ function Pricing() {
                 ))}
               </ul>
               <StockBadge count={count} error={error} />
-              {soldOut ? (
+              {stockPending ? (
+                <span className="btn btn-outline plan-btn plan-btn-disabled">Checking stock…</span>
+              ) : soldOut ? (
                 <span className="btn btn-outline plan-btn plan-btn-disabled">Sold out</span>
               ) : (
                 <a
